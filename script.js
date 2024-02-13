@@ -90,19 +90,73 @@ var upperCasedCharacters = [
 
 // Function to prompt user for password options
 function getPasswordOptions() {
+  let passwordInfo = ""
+  let passwordCharacters = [];
+  let special_Characters = getRandom(specialCharacters)
+  let numeric_Characters = getRandom(numericCharacters) 
+  let lowercased_Characters = getRandom(lowerCasedCharacters)
+  let uppercased_Characters = getRandom(upperCasedCharacters) 
 
-}
+  let characterAmount = window.prompt("How many characters would you like your password to contain? NOTE: Must be between 8-128 characters")
+ 
+  if(characterAmount >=8 && characterAmount < 129) {
+    const getNumber = window.confirm("Click OK to confirm including numeric characters in your password.")
+  
+    if(getNumber) {
+      passwordInfo += [...numericCharacters]
+      passwordCharacters.push(numeric_Characters)
+    }
+  
+    let getSpecialCharacters = window.confirm("Click OK to confirm including special characters in your password.");
+  
+    if(getSpecialCharacters) {
+      passwordInfo += [...specialCharacters]
+      passwordCharacters.push(special_Characters)
+    }
+  
+    let getLowerCaseCharacters = window.confirm("Click OK to confirm including lowercase characters in your password.")
+  
+    if(getLowerCaseCharacters) {
+      passwordInfo += [...lowerCasedCharacters]
+      passwordCharacters.push(lowercased_Characters)
+    }
+  
+    let getUpperCaseCharacters = window.confirm("Click OK to confirm including uppercase characters in your password.")
+  
+    if(getUpperCaseCharacters) {
+      passwordInfo += [...upperCasedCharacters]
+      passwordCharacters.push(uppercased_Characters)
+    }
+  
+    if(!passwordInfo) {
+      window.alert("Error: Please select at least one option to include in your password.")
+    }
+  
+    while (passwordCharacters.length < characterAmount) {
+      // pick a random character from passInfo
+      passwordCharacters.push(getRandom(passwordInfo));
+    }
+
+    return passwordCharacters.join("")
+  
+  }else {
+    window.alert("Error: Please provide a valid password length.")
+  }
+  }
 
 // Function for getting a random element from an array
 function getRandom(arr) {
-
-}
+  const randomCharactersIndex =  Math.floor(Math.random() * arr.length)
+  const randomCharacters = arr[randomCharactersIndex]
+  return randomCharacters
+  }
+  
 
 // Function to generate password with user input
 function generatePassword() {
-
-}
-
+  return getPasswordOptions()
+  }
+  
 // Get references to the #generate element
 var generateBtn = document.querySelector('#generate');
 
@@ -110,8 +164,11 @@ var generateBtn = document.querySelector('#generate');
 function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector('#password');
-
+  if(password){
   passwordText.value = password;
+  }else {
+    passwordText.value = ""
+  }
 }
 
 // Add event listener to generate button
